@@ -23,7 +23,7 @@
 		<!-- 발 -->
 		<div class="row">
 			<div class="col text-center">
-				copy right 멍구
+				copy right 멍구git
 			</div>
 		</div>
 	</div>
