@@ -14,61 +14,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kb.org.member.MemberDAO;
 import com.kb.org.member.MemberVO;
 
 @WebServlet("*.do")
 public class MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private MemberDAO dm = MemberDAO.getInstance();
+	
     public MainController() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = null; // jsp파일지정
+		RequestDispatcher rd = null;	
 		request.setCharacterEncoding("UTF-8");
 		String reqURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String cmd = reqURI.substring(contextPath.length());
 		
-		System.out.println("reqURI = "+ reqURI);
-		System.out.println("contextPath = "+ contextPath);
-		System.out.println("cmd = "+ cmd);
-		
 		if( cmd.equals("/index.do")) {
-			/*
-			 * 최신회원가입한 목록 5개
-			 * 최신글 목록 5개
-			 */
 			rd = request.getRequestDispatcher("index.jsp");
 		}
 		else if(cmd.equals("/member.do")) {
-			
-			try {
-				List<MemberVO> list = new ArrayList<>();
-				Connection conn = ConnectionPool.getConnection(); // context.xml 에 DB연결
-				PreparedStatement pstmt = conn.prepareStatement("select * from member");
-				ResultSet rs = pstmt.executeQuery();
-				
-				while (rs.next()) {
-					list.add(
-						new MemberVO(
-							rs.getString("name"),
-							rs.getString("id"),
-							rs.getString("pwd"),
-							rs.getInt("seq"),
-							rs.getString("joindate"),
-							rs.getString("gender")
-						)		
-					);
-				}
-				
-				request.setAttribute("myList",list);
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			
+			dm.select(request);
+			dm.cntmember(request);
 			rd = request.getRequestDispatcher("member.jsp");
 		}
 		else if(cmd.equals("/freeboard.do")) {
@@ -77,6 +47,24 @@ public class MainController extends HttpServlet {
 		else if(cmd.equals("/memberInsert.do")) {
 			rd = request.getRequestDispatcher("memberInsert.jsp");
 		}
+		else if(cmd.equals("/memberInsertProc.do")) {
+			dm.insert(request);
+			dm.select(request);
+			dm.cntmember(request);
+			rd = request.getRequestDispatcher("member.jsp");
+		}
+		else if(cmd.equals("/memberUpdate.do")) {
+			dm.selectRow(request);
+			rd = request.getRequestDispatcher("memberUpdate.jsp");
+		}
+		else if(cmd.equals("/memberUpdateProc.do")) {
+			dm.updateRow(request);
+			dm.select(request);
+			rd = request.getRequestDispatcher("member.jsp");
+		}
+		else {
+			rd = request.getRequestDispatcher("error404.jsp");
+		}
 		rd.forward(request, response);
 	}
 
@@ -84,5 +72,13 @@ public class MainController extends HttpServlet {
 		doGet(request, response);
 	}
 }
+
+
+
+
+
+
+
+
 
 

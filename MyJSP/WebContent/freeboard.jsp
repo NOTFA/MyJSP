@@ -12,9 +12,12 @@
 		<!-- 중간 -->
 		<div class="row">
 			<div class="col">
-				자유게시판
 			</div>
 		</div>
+		
+		<button type="button" class="btn" onclick="location.href='/MyJSP/memberInsert.do';">일괄등록</button>
+		<button type="button" class="btn" onclick="location.href='/MyJSP/memberInsert.do';">선택삭제</button>
+		<button type="button" class="btn" onclick="location.href='/MyJSP/memberInsert.do';">수정</button>
 		<!-- 발 -->
 		<div class="row">
 			<div class="col text-center">
