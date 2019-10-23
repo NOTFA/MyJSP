@@ -96,7 +96,7 @@
 				<Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
 				<Context docBase="MyJSP" path="/MyJSP" reloadable="true" source="org.eclipse.jst.jee.server:MyJSP"/>
-			<Context docBase="20191016" path="/20191016" reloadable="true" source="org.eclipse.jst.jee.server:20191016"/><Context docBase="20191017" path="/20191017" reloadable="true" source="org.eclipse.jst.jee.server:20191017"/><Context docBase="20191018" path="/20191018" reloadable="true" source="org.eclipse.jst.jee.server:20191018"/><Context docBase="managesystem3" path="/managesystem" reloadable="true" source="org.eclipse.jst.jee.server:managesystem3"/></Host>
+			<Context docBase="20191016" path="/20191016" reloadable="true" source="org.eclipse.jst.jee.server:20191016"/><Context docBase="20191017" path="/20191017" reloadable="true" source="org.eclipse.jst.jee.server:20191017"/><Context docBase="20191018" path="/20191018" reloadable="true" source="org.eclipse.jst.jee.server:20191018"/><Context docBase="managesystem3" path="/managesystem" reloadable="true" source="org.eclipse.jst.jee.server:managesystem3"/><Context docBase="20191023" path="/20191023" reloadable="true" source="org.eclipse.jst.jee.server:20191023"/></Host>
 
 
 		</Engine>

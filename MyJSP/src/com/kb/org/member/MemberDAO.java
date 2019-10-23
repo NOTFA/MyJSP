@@ -1,5 +1,6 @@
 package com.kb.org.member;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,10 +18,11 @@ public class MemberDAO {
 		return md;
 	}
 	
+	
 	public void selectRow(HttpServletRequest request) {
 		String seq = request.getParameter("seq");
 		
-		Connection conn = null;
+		Connection conn = conn = ConnectionPool.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
@@ -50,11 +52,7 @@ public class MemberDAO {
 	// list member select
 	public void select(HttpServletRequest request){
 		String number = request.getParameter("pageNum");
-		
-		
 		int num = number==null? 1: Integer.parseInt(number);
-		System.out.println("num = "+num);
-		
 		/*
 		 * num == 1 num = 0;
 		 * num == 2 num = 10;
@@ -138,10 +136,8 @@ public class MemberDAO {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-	
 	}
-
+	
 	public void updateRow(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");
@@ -152,11 +148,11 @@ public class MemberDAO {
 		try {
 			Connection conn = ConnectionPool.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("update member " + 
-					"set id=?, " + 
-					"	name=?, " + 
-					"	pwd=?, " + 
-					"	gender=? " + 
-					"where seq = ? ");
+															"set id=?, " + 
+															"	 name=?, " + 
+															"    pwd=?, " + 
+															"    gender=? " + 
+															"where seq = ? ");
 			pstmt.setString(1, id);
 			pstmt.setString(2, name);
 			pstmt.setString(3, pwd);
@@ -167,7 +163,45 @@ public class MemberDAO {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
+	public void delete(HttpServletRequest request, String[] seqs) {
+		
+		try {
+			// 2, 3, 4
+			String deleteSeq = "";
+			for(int i = 0; i< seqs.length ; i++) {
+				deleteSeq += seqs[i]+", ";
+			}
+			
+			deleteSeq = deleteSeq.substring(0, deleteSeq.length()-2 );
+			
+			
+			Connection conn = ConnectionPool.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("delete from member " + 
+															"where seq in ( "+deleteSeq+" )");
+			System.out.println("deleteSeq = "+ deleteSeq);
+//			pstmt.setInt(1, x);;
+			
+			pstmt.executeUpdate();
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

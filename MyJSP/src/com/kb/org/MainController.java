@@ -21,6 +21,7 @@ import com.kb.org.member.MemberVO;
 public class MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MemberDAO dm = MemberDAO.getInstance();
+//	private MailDAO maildao = M
 	
     public MainController() {
         super();
@@ -60,11 +61,25 @@ public class MainController extends HttpServlet {
 		else if(cmd.equals("/memberUpdateProc.do")) {
 			dm.updateRow(request);
 			dm.select(request);
+			dm.cntmember(request);
+			rd = request.getRequestDispatcher("member.jsp");
+		}
+		else if(cmd.equals("/memberDelete.do")) {
+			System.out.println("이쪽으로 오나");
+			String[] seqs = request.getParameterValues("seq");
+//			for( String temp : seqs)
+//				System.out.println("temp = "+ temp);
+			
+			dm.delete( request , seqs );
+			dm.select(request);
+			dm.cntmember(request);
+			
 			rd = request.getRequestDispatcher("member.jsp");
 		}
 		else {
 			rd = request.getRequestDispatcher("error404.jsp");
 		}
+		
 		rd.forward(request, response);
 	}
 
